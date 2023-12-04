@@ -1,3 +1,5 @@
+
+
 const images = [
   {
     preview:
@@ -67,6 +69,7 @@ const images = [
 
 const galleryList = document.querySelector('.gallery');
 
+
 galleryList.innerHTML = images.map(({ preview, original, description }) => 
     `<li class="gallery-item">
     <a class="gallery-link" href="${original}">
@@ -80,6 +83,33 @@ galleryList.innerHTML = images.map(({ preview, original, description }) =>
    </li>
     `
 ).join(' ');
+
+
+
+
+galleryList.addEventListener('click', e => {
+    if (e.target.classList.contains("gallery-image")) {
+        const largeImageUrl = e.target.dataset.source;
+
+        const modal = basicLightbox.create(`
+        <div class="modal">
+            <img class="modalImage" src="${largeImageUrl}" alt="Large image"> 
+        </div>`, {
+            onShow: (instance) => {
+                function  onEscapeKeyPressed(event){
+                    if (event.key === "Escape") {
+                        modal.close();
+                    }
+                }
+                document.addEventListener('keydown', onEscapeKeyPressed)
+           }
+            
+        })
+        modal.show();
+        console.log(largeImageUrl);
+        e.preventDefault();
+    }
+})
 
 /*
 <li class="gallery-item">
