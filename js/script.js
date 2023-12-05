@@ -88,7 +88,8 @@ galleryList.innerHTML = images.map(({ preview, original, description }) =>
 
 
 galleryList.addEventListener('click', e => {
-    if (e.target.classList.contains("gallery-image")) {
+  if (e.target.classList.contains("gallery-image")) {
+      e.preventDefault();
         const largeImageUrl = e.target.dataset.source;
 
         const modal = basicLightbox.create(`
@@ -102,12 +103,14 @@ galleryList.addEventListener('click', e => {
                     }
                 }
                 document.addEventListener('keydown', onEscapeKeyPressed)
-           }
-            
+          },
+         onClose: (instance) => {
+              document.removeEventListener('keydown', onEscapeKeyPressed);
+            }    
         })
         modal.show();
-        console.log(largeImageUrl);
-        e.preventDefault();
+        
+        
     }
 })
 
