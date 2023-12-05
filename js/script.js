@@ -84,24 +84,24 @@ galleryList.innerHTML = images.map(({ preview, original, description }) =>
     `
 ).join(' ');
 
-
-
+let modal;
+function  onEscapeKeyPressed(event){
+    if (event.key === "Escape") {
+        modal.close();
+    }
+}
 
 galleryList.addEventListener('click', e => {
   if (e.target.classList.contains("gallery-image")) {
       e.preventDefault();
         const largeImageUrl = e.target.dataset.source;
 
-        const modal = basicLightbox.create(`
+         modal = basicLightbox.create(`
         <div class="modal">
             <img class="modalImage" src="${largeImageUrl}" alt="Large image"> 
         </div>`, {
             onShow: (instance) => {
-                function  onEscapeKeyPressed(event){
-                    if (event.key === "Escape") {
-                        modal.close();
-                    }
-                }
+                
                 document.addEventListener('keydown', onEscapeKeyPressed)
           },
          onClose: (instance) => {
@@ -114,18 +114,3 @@ galleryList.addEventListener('click', e => {
     }
 })
 
-/*
-<li class="gallery-item">
-  <a class="gallery-link" href="large-image.jpg">
-    <img
-      class="gallery-image"
-      src="small-image.jpg"
-      data-source="large-image.jpg"
-      alt="Image description"
-    />
-  </a>
-</li>
-
-
-
-*/
